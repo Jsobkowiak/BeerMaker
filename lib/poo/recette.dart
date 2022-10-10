@@ -13,6 +13,17 @@ class Recette {
     return quantitemalt;
   }
 
+  void setVolume(double volume){
+    this.volume = volume;
+  }
+  void setDegres(double degres){
+    this.degres = degres;
+  }
+
+  void setMoyenne(double moyenne){
+    this.moyenne = moyenne;
+  }
+
   double getquantitedeaubrassage() {
     double quandititedeaubrassage = getquantitemalt() * 2.8;
 
@@ -118,5 +129,18 @@ class Recette {
     double smr = this.moyenne * 0.508;
 
     return smr;
+  }
+
+  double getEBC(){
+    double EBC = 1.97 * getSMR();
+
+    return EBC;
+  }
+
+  double getMCU(){
+    double mcu = 0;
+
+
+    return mcu;
   }
 }

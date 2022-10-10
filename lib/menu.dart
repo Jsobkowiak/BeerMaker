@@ -42,7 +42,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     minimumSize:
                         Size(MediaQuery.of(context).size.width * 1, 150),
                     primary: Colors.grey[300]),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/etape-fabrication");
+                },
                 child: const Text(Strings.titlemenu1)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
