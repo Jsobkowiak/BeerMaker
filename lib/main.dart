@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beermaker/EtapeFabrication.dart';
 import 'package:flutter_beermaker/fabrication.dart';
+import 'package:flutter_beermaker/homepage.dart';
 import 'package:flutter_beermaker/string.dart';
 import 'menu.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const MyHomePage(title: 'BeerMaker'),
         routes: <String, WidgetBuilder>{
-          "/menu": (BuildContext context) => const MyHomePage(title: Strings.title),
+          "/menu": (BuildContext context) => const Menu(title: Strings.title),
           "/outils-fabrication": (BuildContext context) =>
               const Fabrication(title: Strings.title),
           "/etape-fabrication": (BuildContext context) =>

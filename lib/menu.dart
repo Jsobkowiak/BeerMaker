@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'string.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  
+class Menu extends StatefulWidget {
+  const Menu({super.key, required this.title});
+
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Menu> createState() => _Menu();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _Menu extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
