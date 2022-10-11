@@ -60,7 +60,9 @@ class _Menu extends State<Menu> {
                   minimumSize: Size(MediaQuery.of(context).size.width * 1, 150),
                   primary: Colors.grey[300],
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/recette");
+                },
                 child: const Text(Strings.titlemenu3)),
           ],
         ),

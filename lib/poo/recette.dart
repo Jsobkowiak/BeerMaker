@@ -1,11 +1,48 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
 class Recette {
   double volume;
-
   double degres;
-
   double moyenne;
 
+  Map<String, dynamic> recettes = new Map();
+
+  bool recupRecette = false;
+  List<dynamic> listerecette = [];
   Recette(this.volume, this.degres, this.moyenne);
+
+  Map<String, dynamic> Getrecettes() {
+    return this.recettes;
+  }
+
+  Future<void> recuprecette() async {
+    String url =
+        "https://s3-4438.nuage-peda.fr/recette/public/api/recettes?page=1";
+    var reponse = await http.get(Uri.parse(url));
+    if (reponse.statusCode == 200) {
+      recettes = convert.jsonDecode(reponse.body);
+
+      for (var element in recettes["hydra:member"]) {
+        listerecette.add(element);
+      }
+
+      recupRecette = true;
+    }
+  }
+
+  List<int> getAllid() {
+    List<int> allid = [];
+
+    for (var i = 0; i < listerecette.length; i++) {
+      allid.add(listerecette[i]["id"]);
+    }
+    return allid;
+  }
+
+  String getid(int id) {
+    return listerecette[id]["id"].toString();
+  }
 
   double getquantitemalt() {
     double quantitemalt = this.volume * this.degres / 20;
@@ -56,7 +93,7 @@ class Recette {
     return quantitelevure;
   }
 
-  int srmToRGB(double srm) {
+  String srmToRGB(double srm) {
     // Returns an RGB value based on SRM
     double r, g, b;
     r = 0;
@@ -124,7 +161,7 @@ class Recette {
 
     print(rgb);
 
-    return int.parse(rgb);
+    return rgb;
   }
 
   double getMoyenne() {

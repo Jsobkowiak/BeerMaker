@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_beermaker/EtapeFabrication.dart';
 import 'package:flutter_beermaker/fabrication.dart';
 import 'package:flutter_beermaker/homepage.dart';
+import 'package:flutter_beermaker/poo/recette.dart';
+import 'package:flutter_beermaker/recette.dart';
 import 'package:flutter_beermaker/string.dart';
 import 'menu.dart';
 
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
               const Fabrication(title: Strings.title),
           "/etape-fabrication": (BuildContext context) =>
               const EtapeFabrication(title: Strings.title),
+          "/recette": (BuildContext context) =>
+              const Recettes(title: Strings.title)
         });
   }
 }

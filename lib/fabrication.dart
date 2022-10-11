@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beermaker/poo/recette.dart';
 import 'string.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class Fabrication extends StatefulWidget {
   const Fabrication({super.key, required this.title});
@@ -20,6 +22,27 @@ class _Fabrication extends State<Fabrication> {
   double SMR = 0;
 
   Recette recette = new Recette(1, 1, 1);
+
+  Future<http.Response> envoie(
+      double volume, double degres, double moyenneEBC) async {
+    return http.post(
+        Uri.parse("https://s3-4438.nuage-peda.fr/recette/public/api/recettes"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: convert.jsonEncode(<String, double>{
+          'volume': volume,
+          'degres': degres,
+          'moyenneEBC': moyenneEBC
+        }));
+  }
+
+  void envoiedonne() {
+    setState(() {
+      envoie(volume, degres, EBC);
+      Navigator.pushNamed(context, "/recette");
+    });
+  }
 
   void calcul() {
     setState(() {
@@ -44,35 +67,32 @@ class _Fabrication extends State<Fabrication> {
               Row(
                 children: const [
                   Text(
-                    "${Strings.colimetrie}",
+                    Strings.colimetrie,
                     style: TextStyle(fontSize: 25),
                   ),
                 ],
               ),
               Row(
-                children: [
-                  Text("${Strings.SMR + SMR.toString()}"),
-                ],
-              ),
-              Row(
-                children: [
-                  Text("${Strings.EBC + recette.getEBC().toString()}"),
-                ],
-              ),
-              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("${Strings.MCU + recette.getMCU().toString()}"),
+                  Column(
+                    children: [
+                      Text(Strings.SMR + SMR.toString()),
+                      Text(Strings.EBC + recette.getEBC().toString()),
+                      Text(Strings.MCU + recette.getMCU().toString()),
+                    ],
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: DecoratedBox(
                         child: Text(
-                          "${recette.srmToRGB(recette.getSMR())}",
+                          recette.srmToRGB(recette.getSMR()),
                           textAlign: TextAlign.center,
                         ),
                         decoration: BoxDecoration(
-                            color: Color(recette.srmToRGB(recette.getSMR())))),
+                            color: Color(int.parse(
+                                recette.srmToRGB(recette.getSMR()))))),
                   )
                 ],
               ),
@@ -81,7 +101,7 @@ class _Fabrication extends State<Fabrication> {
                 margin: const EdgeInsets.only(top: 30.0),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(),
-                    onPressed: () {},
+                    onPressed: envoiedonne,
                     child: Text("ENREGISTRER LA RECETTE")),
               ))
             ],
@@ -101,18 +121,17 @@ class _Fabrication extends State<Fabrication> {
           margin: const EdgeInsets.only(top: 10.0),
           child: Column(
             children: [
+              Text(Strings.quantitemalt + recette.getquantitemalt().toString()),
+              Text(Strings.volumeDeauBrassage +
+                  recette.getquantitedeaubrassage().toString()),
+              Text(Strings.volumeDeauRincage +
+                  recette.getquantitedeauderincage().toString()),
+              Text(Strings.qtitehoublontame +
+                  recette.getquantitehoubloname().toString()),
+              Text(Strings.qtitehoublontaro +
+                  recette.getquantitehoubloaro().toString()),
               Text(
-                  "${Strings.quantitemalt + recette.getquantitemalt().toString()}"),
-              Text(
-                  "${Strings.volumeDeauBrassage + recette.getquantitedeaubrassage().toString()}"),
-              Text(
-                  "${Strings.volumeDeauRincage + recette.getquantitedeauderincage().toString()}"),
-              Text(
-                  "${Strings.qtitehoublontame + recette.getquantitehoubloname().toString()}"),
-              Text(
-                  "${Strings.qtitehoublontaro + recette.getquantitehoubloaro().toString()}"),
-              Text(
-                  "${Strings.qtitelevure + recette.getquantitelevure().toString()}"),
+                  Strings.qtitelevure + recette.getquantitelevure().toString()),
             ],
           ),
         );
